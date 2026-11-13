@@ -19,15 +19,22 @@ Full counts, audit expectations and known biases are in [data/DATASHEET.md](data
 
 ```
 data/            frozen corpus, frozen splits, headline readouts, manifest, datasheet
+data/samples/    frozen generated-sample parquets for the five Track A arms + md5 manifest
 metrics/         metric API, scorer adapter, feasibility scorer
 splits/          split builder (provenance) and the six-audit checker
-baselines/       Track A baseline readout and official-baseline adapter
+baselines/       model definitions, sampling scripts, leaderboard build, readout scripts
 figures/         figure scripts and rendered assets (160 and 300 dpi)
 tests/           data contract, manifest and split-audit tests
+weights/         trained checkpoints and scorer bundles (downloaded, not in git)
+vendor/          ZeoSynGen checkout (created by the user, not in git)
 ```
 
 `data/` holds everything needed to verify the reported numbers and regenerate the figures.
-Training checkpoints and intermediate prediction files are not included.
+`data/samples/` holds the frozen generated-sample parquets that produce `data/wp5_bench_v1_table.csv`
+bit-for-bit. Training checkpoints and scorer bundles are not committed; download them into
+`weights/` (see below). The model definition modules in `baselines/` (`wp3_ddpm_v0.py` and its
+successors) can retrain the FASE-DDPM arms; `baselines/wp5_bench_v1_selfbaselines.py` retrains
+KDE-QT, TabDDPM-MLP and Random-Uniform.
 
 ## Quick start
 
@@ -46,6 +53,38 @@ python figures/p21_supp_t2.py   # Table S2 and manifest refresh
 
 `make test`, `make audit`, `make figures` wrap the same commands.
 
+## Weights and vendor code
+
+Reproducing the Track A leaderboard end-to-end needs two things that are not in the git tree:
+
+1. **Checkpoints and scorer bundles** (about 320 MB total). Download them into `weights/`:
+
+   ```bash
+   make weights                     # or: python baselines/download_weights.py
+   python baselines/download_weights.py --check   # verify md5 after download
+   ```
+
+   Assets are Release attachments under the `weights-v1` tag:
+   `https://github.com/Vitalite123/zeolite-synthesis-bench/releases/tag/weights-v1`
+   (`wp3_ddpm_v0_model.pt`, `wp3_ddpm_v0_dataset.pt`, `wp3_ddpm_v01_model.pt`,
+   `wp3_ddpm_v01_dataset.pt`, `wp5_bench_v1_tabddpm_model.pt`, `wp5_g3_scorer.pkl`,
+   `feasibility_scorer_v1_2_model.pkl`).
+
+2. **The ZeoSynGen upstream code.** Clone <https://github.com/eltonpan/zeosyn_gen> into
+   `vendor/zeosyn_gen/`. Only its Python modules and descriptor CSVs are imported; the released
+   dataset pickle is needed only for Track B baselines.
+
+Then rebuild the leaderboard:
+
+```bash
+python baselines/wp5_bench_v1_table.py    # recomputes data/wp5_bench_v1_table.csv (~10 min)
+```
+
+The regenerated table matches the committed `data/wp5_bench_v1_table.csv` bit-for-bit given the
+frozen sample parquets in `data/samples/` and the checksummed weights above. To resample the
+DDPM arms from checkpoints instead of reusing the frozen parquets, run
+`python baselines/wp5_g3_formal_read.py read` (about 1 GPU-hour per arm).
+
 ## What reproduces here
 
 | Artefact | Source | Needs |
@@ -57,6 +96,9 @@ python figures/p21_supp_t2.py   # Table S2 and manifest refresh
 | Table S2 | `figures/p21_supp_t2.py` | pandas |
 | Track B baseline table | `figures/p21_trackb_table.py` | `vendor/zeosyn_gen` checkout |
 | Metric API and baseline readout | `metrics/`, `baselines/` | `vendor/zeosyn_gen` checkout, trained checkpoints |
+| Track A leaderboard (five arms) | `baselines/wp5_bench_v1_table.py` | `vendor/zeosyn_gen`, `weights/`, `data/samples/` |
+| FASE-DDPM sampling from checkpoints | `baselines/wp5_g3_formal_read.py read` | `vendor/zeosyn_gen`, `weights/` (GPU) |
+| KDE-QT / TabDDPM-MLP / Random-Uniform training | `baselines/wp5_bench_v1_selfbaselines.py` | `vendor/zeosyn_gen`, `weights/` |
 
 The metric API wraps the official implementations shipped with ZeoSynGen for W2, MMD and COV, so
 those three numbers are computed by the upstream code rather than reimplemented here. To run the

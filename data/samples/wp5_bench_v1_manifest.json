@@ -1,0 +1,21 @@
+{
+ "task": "ZeoliteSynthesisBench v1 Track A unified table",
+ "spec": "Documentation/ZeoliteSynthesisBench_v1_规格_骨架.md v1.1 FROZEN",
+ "date": "2026-10-23 13:51:31",
+ "protocol": {
+  "systems": 123,
+  "ns": 200,
+  "seed": 42,
+  "universe": "test n_true>=5, zeo!=Dense/Amorphous"
+ },
+ "dataset_md5": "ab46eab3288711da80fe5a53a70a63b5",
+ "scorer_md5": "d2142afea965fac1c930b32719924435",
+ "methods": {
+  "FASE-DDPM v0": "ca0c85cac75cac8cc318f5cf23a68542",
+  "FASE-DDPM v0.5": "d36a16f00912a9c6622620ad78d64412",
+  "KDE-QT": "5473d8c6d8999caa4ee8c714cf56cd11",
+  "TabDDPM-MLP": "66a342c0eda1837d626c1c9aaa9b0189",
+  "Random-Uniform": "bc9ad5bf69b539851e7127764070959f"
+ },
+ "duration_min": 9.3
+}

@@ -1,6 +1,8 @@
 PY ?= python
 
-.PHONY: test audit figures tables all
+BASEURL := https://github.com/Vitalite123/zeolite-synthesis-bench/releases/download/weights-v1
+
+.PHONY: test audit figures tables weights all
 
 all: test audit figures tables
 
@@ -17,3 +19,6 @@ figures:
 
 tables:
 	$(PY) figures/p21_supp_t2.py
+
+weights:
+	$(PY) baselines/download_weights.py

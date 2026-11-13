@@ -1,5 +1,6 @@
-# Full stack: metric API, feasibility scorer and baseline adapters.
-# These modules also expect a ZeoSynGen checkout under vendor/zeosyn_gen/.
+# Full stack: metric API, feasibility scorer, DDPM/baseline training and leaderboard build.
+# These modules also expect a ZeoSynGen checkout under vendor/zeosyn_gen/ and the
+# downloadable checkpoints under weights/ (see README, "Weights and vendor code").
 -r requirements.txt
 scipy>=1.10
 scikit-learn>=1.3
@@ -8,3 +9,4 @@ lightgbm>=4.0
 rdkit>=2023.9
 geomloss>=0.2.6
 pot>=0.9
+einops>=0.7

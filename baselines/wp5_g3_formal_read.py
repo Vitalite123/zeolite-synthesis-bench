@@ -36,7 +36,10 @@ import pandas as pd
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ZG = os.path.join(BASE, 'vendor', 'zeosyn_gen')
-os.chdir(ZG); sys.path.insert(0, ZG); sys.path.insert(0, BASE)   # BASE: 任意导入上下文可解析 wp3 模块
+os.chdir(ZG); sys.path.insert(0, ZG)
+sys.path.insert(0, BASE)                       # 任意导入上下文可解析 wp3 模块
+sys.path.insert(0, os.path.join(BASE, 'metrics'))
+sys.path.insert(0, os.path.join(BASE, 'baselines'))
 
 import torch
 
@@ -49,13 +52,13 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 # ---------------- 路径 ----------------
-SCORER_PKL  = os.path.join(BASE, 'data', 'wp5_g3_scorer.pkl')
+SCORER_PKL  = os.path.join(BASE, 'weights', 'wp5_g3_scorer.pkl')
 REPORT      = os.path.join(BASE, 'data', 'wp5_g3_formal_report.txt')
 MANIFEST    = os.path.join(BASE, 'data', 'wp5_g3_formal_manifest.json')
-COVP_PNG    = os.path.join(BASE, 'Documentation', 'wp5_g3_covp_by_system.png')
+COVP_PNG    = os.path.join(BASE, 'figures', 'assets', 'wp5_g3_covp_by_system.png')
 
 def pred_parq(tag):
-    return os.path.join(BASE, 'data', 'wp5_g3_formal_%s_syn.parquet' % tag.replace('.', ''))
+    return os.path.join(BASE, 'data', 'samples', 'wp5_g3_formal_%s_syn.parquet' % tag.replace('.', ''))
 
 def model_registry():
     """模型注册表 (渐进扩展: ckpt 存在即注册; v0.2+ 惰性导入)。

@@ -1,0 +1,10 @@
+ZeoliteSynthesisBench v1 — Track A 自实现基线 | 2026-10-23 13:25:29 | device cuda:0
+载荷: 21714 行 | train 16058 / test 3362 | 合格体系 123
+KDE: 全局拟合 16058 行；骨架条件拟合开始
+KDE-QT: 24600 行 → wp5_bench_v1_kde_syn.parquet
+KDE: 骨架条件 98 体系 / 全局回退 25 体系；用时 0.0 min
+TabDDPM: d_x=12, d_c=157, steps=1000, epochs=500
+TabDDPM: 复用已训 ckpt (16058 行训练), 跳过训练
+TabDDPM-MLP: 24600 行 → wp5_bench_v1_tabddpm_syn.parquet
+TabDDPM: 训练+采样 0.4 min
+Random-Uniform: 24600 行 → wp5_bench_v1_random_syn.parquet

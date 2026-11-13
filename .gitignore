@@ -8,8 +8,12 @@ venv/
 
 # Upstream checkout and local artefacts
 vendor/
+weights/
 *.log
 data/*.tmp
+data/bench_table_notes.md
+data/leaderboard.html
+data/wp5_bench_v1_manifest.json
 
 # OS
 .DS_Store

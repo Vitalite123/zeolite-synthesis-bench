@@ -1,0 +1,56 @@
+{
+ "task": "ZeoliteSynthesisBench v1 Track A self-implemented baselines",
+ "spec": "Documentation/ZeoliteSynthesisBench_v1_规格_骨架.md v1.0 FROZEN",
+ "protocol": {
+  "systems": 123,
+  "ns": 200,
+  "seed": 42,
+  "universe": "test n_true>=5, zeo!=Dense/Amorphous"
+ },
+ "date": "2026-10-23 13:25:29",
+ "dataset_md5": "ab46eab3288711da80fe5a53a70a63b5",
+ "kde": {
+  "n_local": 98,
+  "n_global": 25,
+  "min_train": 30
+ },
+ "tabddpm": {
+  "epochs": 500,
+  "steps": 1000,
+  "hidden": 1024,
+  "batch": 1024,
+  "lr": 0.0005,
+  "model_md5": "89f5a6947335f5b069da414a963fcd93"
+ },
+ "random": {
+  "lo": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "hi": [
+   399.99999999999994,
+   1.7173727422003475,
+   99.00000000000166,
+   250.00000000014168,
+   2.8384615384615386,
+   5.333333333333358,
+   4.000000000000021,
+   1.2669881290322416,
+   200.00000000000017,
+   6.097582682238021,
+   600.0,
+   14496.0
+  ]
+ },
+ "duration_min": 0.4
+}

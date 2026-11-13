@@ -1,0 +1,116 @@
+{
+  "task": "WP5 指标正式读数 — G3 中期线 COV-P≥0.75 首正式判定 (周计划 2026-10-23~10-29 P0-2)",
+  "date": "2026-10-20 18:08:58",
+  "data_version": "zeobench_db_v1_8",
+  "code_md5": {
+    "wp5_g3_formal_read.py": "1970274d24a1426220f3dcf4f4b18dfa",
+    "wp5_metrics_api_v0.py": "d70b4e28017b343bbd6d20649674b6b9",
+    "wp3_ddpm_v0.py": "383314ce4857294bf2b1608e8fbbeba8",
+    "wp3_ddpm_v0_1.py": "ede13bd92972521535c4e0ddaadf119b"
+  },
+  "git_commit": "0781363102d3144678b5d210d23d945de71998cf",
+  "protocol": {
+    "n_systems": 123,
+    "n_samples_per_sys": 200,
+    "seed": 42,
+    "cond_scale": 0.75,
+    "cov_pred_discipline": "200 = 官方 coverage 截断上限",
+    "aggregation": "逐体系 full_suite 等权均值 (COV 不可跨体系合并)"
+  },
+  "scorer_v05": {
+    "type": "LGBM multiclass 12列→zeo_key 198 类 (L3-diffsyn)",
+    "n_estimators": 300,
+    "num_leaves": 31,
+    "lr": 0.05,
+    "min_data_in_leaf": 200,
+    "note": "margin 塌缩修正配置 (200/lr.1/mdl20 → rowmax 1.0/top1 0.135 病态, 见文件头)",
+    "trained_on": "全人口 (test 体系 train 侧 0 支撑)",
+    "ref_test_true_rows": {
+      "mean_p": 0.8337169864413062,
+      "frac_05": 0.8730234786775275,
+      "frac_02": 0.9645424053665549,
+      "top1": 0.9108768567321515,
+      "n": 2087
+    }
+  },
+  "models": {
+    "v0": {
+      "ckpt_step": 106000,
+      "COV-P": 0.7359146341463414,
+      "COV-R": 0.9113851657513832,
+      "W2": 0.3583110944315972,
+      "frac05": 0.15321138211382113,
+      "physical_validity_strict": 0.9867073170731707,
+      "nn_median": 0.04022135256966572,
+      "outside_hull": 0.7378455284552845,
+      "pred_parquet_md5": "ca0c85cac75cac8cc318f5cf23a68542"
+    },
+    "v0.1": {
+      "ckpt_step": 106000,
+      "COV-P": 0.7285535230352302,
+      "COV-R": 0.9068524306317817,
+      "W2": 0.37576651331649424,
+      "frac05": 0.14105691056910563,
+      "physical_validity_strict": 0.9851219512195122,
+      "nn_median": 0.047675974732598804,
+      "outside_hull": 0.764349593495935,
+      "pred_parquet_md5": "6b3cf97c76d51e356dd527fc51bf839b"
+    },
+    "v0.2": {
+      "ckpt_step": 106000,
+      "COV-P": 0.7334281842818426,
+      "COV-R": 0.9006827181731208,
+      "W2": 0.3656668862159247,
+      "frac05": 0.14544715447154472,
+      "physical_validity_strict": 0.9914227642276423,
+      "nn_median": 0.04593686566868388,
+      "outside_hull": 0.6926422764227642,
+      "pred_parquet_md5": "36153541fa717994a2459f8df91a65bf"
+    },
+    "v0.3": {
+      "ckpt_step": 103000,
+      "COV-P": 0.7324728997289973,
+      "COV-R": 0.9025475464504237,
+      "W2": 0.3656934054891395,
+      "frac05": 0.15426829268292677,
+      "physical_validity_strict": 0.9884552845528455,
+      "nn_median": 0.044033003406535064,
+      "outside_hull": 0.7075609756097561,
+      "pred_parquet_md5": "0f68d2724830ba92f4de5c3e03a089e8"
+    },
+    "v0.4": {
+      "ckpt_step": 85500,
+      "COV-P": 0.7153285907859078,
+      "COV-R": 0.9271330171736878,
+      "W2": 0.3775246270760962,
+      "frac05": 0.16369918699186992,
+      "physical_validity_strict": 0.9897967479674796,
+      "nn_median": 0.04417569184286882,
+      "outside_hull": 0.746869918699187,
+      "pred_parquet_md5": "28ce4a4f3388125a57e1924b65b96811"
+    },
+    "v0.4.1": {
+      "ckpt_step": 85500,
+      "COV-P": 0.7173983739837398,
+      "COV-R": 0.9248692685747985,
+      "W2": 0.37208474545365666,
+      "frac05": 0.17215447154471542,
+      "physical_validity_strict": 0.9871544715447155,
+      "nn_median": 0.05044354277237084,
+      "outside_hull": 0.7053252032520325,
+      "pred_parquet_md5": "1e4d5838430320c6575c3d010f5fd5a6"
+    },
+    "v0.5": {
+      "ckpt_step": 103000,
+      "COV-P": 0.7317445799457996,
+      "COV-R": 0.8982056494484109,
+      "W2": 0.3579351232857726,
+      "frac05": 0.16715447154471544,
+      "physical_validity_strict": 0.9914634146341463,
+      "nn_median": 0.041696921688278224,
+      "outside_hull": 0.7555284552845528,
+      "pred_parquet_md5": "d36a16f00912a9c6622620ad78d64412"
+    }
+  },
+  "duration_min": 26.4
+}

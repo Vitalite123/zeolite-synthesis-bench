@@ -80,7 +80,7 @@ OSDA_DEFAULT = os.path.join(BASE, 'data', 'osda_descriptors.parquet')
 OSDA_V11    = os.path.join(BASE, 'data', 'osda_descriptors_v1_1.parquet')
 SIDE        = os.path.join(BASE, 'data', 'osda_desc_key_sidecar.csv')
 
-MODEL_PKL  = os.path.join(BASE, 'data', 'feasibility_scorer_v1_2_model.pkl')
+MODEL_PKL  = os.path.join(BASE, 'weights', 'feasibility_scorer_v1_2_model.pkl')
 REPORT     = os.path.join(BASE, 'data', 'feasibility_scorer_v1_2_report.txt')
 SELF_REPORT = os.path.join(BASE, 'data', 'feasibility_scorer_v1_2_selfcheck.txt')
 MANIFEST   = os.path.join(BASE, 'data', 'feasibility_scorer_v1_2_manifest.json')

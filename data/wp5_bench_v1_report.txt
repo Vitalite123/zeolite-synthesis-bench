@@ -1,0 +1,12 @@
+ZeoliteSynthesisBench v1 — Track A 统一评估 | 2026-10-23 13:42:12
+协议: 123 体系 × 200 样本 | scorer wp5_g3_scorer.pkl (198 类)
+--- FASE-DDPM v0 (diffusion, 24600 行) ---
+FASE-DDPM v0: COV-P 0.7359 | W2 0.3583 | MMD 1.3946 | PV 0.9867 | CC@0.5 0.1532 | NN中位 0.0211
+--- FASE-DDPM v0.5 (diffusion, 24600 行) ---
+FASE-DDPM v0.5: COV-P 0.7317 | W2 0.3579 | MMD 1.4606 | PV 0.9915 | CC@0.5 0.1672 | NN中位 0.0219
+--- KDE-QT (kde, 24600 行) ---
+KDE-QT: COV-P 0.5872 | W2 0.5932 | MMD 1.4278 | PV 0.9469 | CC@0.5 0.0559 | NN中位 0.0662
+--- TabDDPM-MLP (tabddpm, 24600 行) ---
+TabDDPM-MLP: COV-P 0.6518 | W2 0.4496 | MMD 1.3261 | PV 0.9667 | CC@0.5 0.0646 | NN中位 0.0390
+--- Random-Uniform (random, 24600 行) ---
+Random-Uniform: COV-P 0.0451 | W2 1.6066 | MMD 2.3146 | PV 0.5507 | CC@0.5 0.0127 | NN中位 1.3042
