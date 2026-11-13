@@ -23,7 +23,6 @@ metrics/         metric API, scorer adapter, feasibility scorer
 splits/          split builder (provenance) and the six-audit checker
 baselines/       Track A baseline readout and official-baseline adapter
 figures/         figure scripts and rendered assets (160 and 300 dpi)
-docs/            manuscript, Supporting Information, bibliography
 tests/           data contract, manifest and split-audit tests
 ```
 
