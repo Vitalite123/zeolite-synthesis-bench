@@ -1,0 +1,24 @@
+ZeoliteSynthesisBench v1 — data licence
+========================================
+
+The data files in this directory (zeobench_db_v1_8.parquet, zeobench_splits_v1_8.parquet and the
+derived readout tables) are licensed under the Creative Commons Attribution 4.0 International
+licence (CC BY 4.0).
+
+You are free to share and adapt the data for any purpose, provided that you give appropriate
+credit, link to the licence, and indicate whether changes were made. No additional restrictions
+may be applied.
+
+Full legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+
+Suggested attribution:
+
+  ZeoliteSynthesisBench v1 (2026). A leakage-audited benchmark for zeolite synthesis recipe
+  generation and feasibility prediction. Licensed under CC BY 4.0.
+
+Scope note: the corpus is a derived annotation of published hydrothermal synthesis routes. Rights in
+the underlying experimental records remain with the original authors and publishers. Users are
+responsible for checking the terms of the source publications before redistributing record-level
+content.
+
+Source code in this repository is licensed separately under the MIT licence (see LICENSE).

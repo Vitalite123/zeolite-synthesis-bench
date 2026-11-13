@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this benchmark, cite the accompanying manuscript and this repository."
+title: "ZeoliteSynthesisBench: a leakage-audited benchmark for zeolite synthesis recipe generation and feasibility prediction"
+abstract: "A leakage-audited benchmark built on 24,706 hydrothermal records with four outcome labels, three frozen splits, two tasks and seven metric families."
+type: software
+authors:
+  - name: "FASE Zeolites Project"
+version: "1.0.0"
+date-released: "2026-11-13"
+license: MIT
+keywords:
+  - zeolite synthesis
+  - benchmark
+  - generative modeling
+  - synthesis feasibility
+  - data leakage
+  - hydrothermal synthesis

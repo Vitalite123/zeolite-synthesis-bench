@@ -1,0 +1,92 @@
+M10 校准报告 v1 —— reliability diagram + ECE + temperature scaling
+数据版本 zeobench_db_v1_8 + zeobench_splits_v1_8; git 5a50d2f4748b5e1e594029f456cb59adfa1fe9a5
+校准层定义: 复用 l3_purity_v1.{ece, fit_temperature, proba_with_T, nll_mc}; T* 于 random val 按 NLL 最小拟合, 三切分共用冻结
+去 Tier A: v1.8 24706 行 → 23805 行
+
+==============================================================================
+【L1 臂】相分类 top-1 多分类 (镜像 part_a1)
+  域: positive & zeo_desc_key 有效 = 13286 行 198 类; A3 490 维
+  random (早停@118, 130s); heldout/time 固定 118 轮
+  L1 test top-1: random 0.5710 / heldout 0.2402 / time_2018 0.6973
+
+==============================================================================
+【L2 臂】可行性 二分类 (镜像 part_a2; xtal 主口径 / pure 参照)
+  域构造: 主库(v1.1 剔 Tier A) 23488 + lit_fail 308 + 先批增量 307 + 本批(incr_R6) 10
+  pure random 早停轮 = 59 (heldout/time 轮数锚定惯例)
+  L2 AUROC   xtal: random 0.6307 / heldout 0.5158 / time_2018 0.6650
+  L2 AUROC   pure: random 0.6210 / heldout 0.5432 / time_2018 0.6271
+
+==============================================================================
+【L3 臂】纯度 竞相多分类 (镜像 part_a3; OSDA v1_1 表 + sidecar 回填)
+  sidecar 回填 (fillna): 全库补 key 1199 行
+  特征 fit: A3 490 + COMP 8 = 498 维 (全库冻结, 自证 PASS)
+  域: positive + relative_neg & zeo_desc_key 有效 = 17364 行, 类别 200 个
+  random (早停@131, 182s); heldout/time 固定 131 轮
+  L3 test top-1: random 0.5554 / heldout 0.2621 / time_2018 0.6438
+
+==============================================================================
+锚点断言 (容差 1e-3):
+  L1    random    期望 0.5710 实测 0.5710 (Δ+0.0000) -> PASS
+  L1    heldout   期望 0.2402 实测 0.2402 (Δ-0.0000) -> PASS
+  L1    time_2018 期望 0.6973 实测 0.6973 (Δ+0.0000) -> PASS
+  L2xt  random    期望 0.6307 实测 0.6307 (Δ+0.0000) -> PASS
+  L2xt  heldout   期望 0.5158 实测 0.5158 (Δ-0.0000) -> PASS
+  L2xt  time_2018 期望 0.6650 实测 0.6650 (Δ-0.0000) -> PASS
+  L2pu  random    期望 0.6210 实测 0.6210 (Δ+0.0000) -> PASS
+  L2pu  heldout   期望 0.5432 实测 0.5432 (Δ+0.0000) -> PASS
+  L2pu  time_2018 期望 0.6271 实测 0.6271 (Δ+0.0000) -> PASS
+  L3    random    期望 0.5554 实测 0.5554 (Δ-0.0000) -> PASS
+  L3    heldout   期望 0.2621 实测 0.2621 (Δ-0.0000) -> PASS
+  L3    time_2018 期望 0.6438 实测 0.6438 (Δ+0.0000) -> PASS
+  12 项锚点 assert: 全部 PASS
+
+==============================================================================
+ECE / NLL 主表 (ECE_post ≤ 0.05 为达标):
+  臂    口径    切分          n_test      acc   ECE_pre  ECE_post   NLL_pre  NLL_post      T*
+  L1   mc    random        1436   0.5710    0.1146    0.0503    2.1249    2.0230   1.246 
+  L1   mc    heldout       1657   0.2402    0.3082    0.1890   13.2944   11.0918   1.246 
+  L1   mc    time_2018     1239   0.6973    0.0536    0.0638    1.4921    1.4589   1.246 
+  L2   xtal  random        2298   0.8072    0.0178    0.0293    0.4741    0.4756   0.943 ✓
+  L2   xtal  heldout       2992   0.7975    0.0521    0.0561    0.5165    0.5206   0.943 
+  L2   xtal  time_2018     2006   0.8345    0.0183    0.0291    0.4257    0.4275   0.943 ✓
+  L2   pure  random        2298   0.6519    0.0390    0.0332    0.6252    0.6232   1.184 ✓
+  L2   pure  heldout       2992   0.5548    0.1071    0.0846    0.7128    0.7003   1.184 
+  L2   pure  time_2018     2006   0.6286    0.0541    0.0491    0.6163    0.6166   1.184 ✓
+  L3   mc    random        1761   0.5554    0.1527    0.0423    2.5084    2.2851   1.299 ✓
+  L3   mc    heldout       2335   0.2621    0.3349    0.1939   12.3167    9.9366   1.299 
+  L3   mc    time_2018     1589   0.6438    0.0950    0.0508    1.7201    1.6308   1.299 
+  L3   EMT   random        1761   0.9881    0.0076    0.0097    0.0378    0.0481   0.721 ✓
+  L3   EMT   heldout       2335   0.9572    0.0205    0.0302    0.1027    0.1187   0.721 ✓
+  L3   EMT   time_2018     1589   0.9528    0.0225    0.0262    0.0963    0.1122   0.721 ✓
+
+  达到 ECE ≤ 0.05 的「臂×切分×口径」(8 个): L2/xtal/random; L2/xtal/time_2018; L2/pure/random; L2/pure/time_2018; L3/mc/random; L3/EMT/random; L3/EMT/heldout; L3/EMT/time_2018
+
+L3 EMT 目标相口径补充 (多分类侧):
+  random    真值EMT 32 行; EMT 作为 top-1 比例 0.0085; 真值EMT 中 EMT top-1 命中 0.4062; P(EMT) mean(真值EMT) 0.4225
+  heldout   真值EMT 121 行; EMT 作为 top-1 比例 0.0283; 真值EMT 中 EMT top-1 命中 0.2727; P(EMT) mean(真值EMT) 0.3230
+  time_2018 真值EMT 115 行; EMT 作为 top-1 比例 0.0371; 真值EMT 中 EMT top-1 命中 0.4870; P(EMT) mean(真值EMT) 0.4070
+
+==============================================================================
+判读:
+  ① 温度缩放为单调变换 (除以 T>0 后 softmax), argmax 对所有「臂×切分×口径」均不变 (逐组断言 PASS) → 分类读数 (acc/top-1/AUROC) 不受 T 影响, 校准改善的是概率读数 ECE/NLL。
+  ② L1 校准: random ECE 0.1146→0.0503 (T*=1.25), time_2018 ECE 0.0536→0.0638 (T*=1.25);
+  ③ ECE_post 最差: L3/mc/heldout = 0.1939; 最好: L3/EMT/random = 0.0097
+  ④ 达标 (ECE_post ≤ 0.05): 8/15 组; 未达标组列于下:
+     ★ L1/mc/random ECE_post=0.0503 (ECE_pre=0.1146, T*=1.246)
+     ★ L1/mc/heldout ECE_post=0.1890 (ECE_pre=0.3082, T*=1.246)
+     ★ L1/mc/time_2018 ECE_post=0.0638 (ECE_pre=0.0536, T*=1.246)
+     ★ L2/xtal/heldout ECE_post=0.0561 (ECE_pre=0.0521, T*=0.943)
+     ★ L2/pure/heldout ECE_post=0.0846 (ECE_pre=0.1071, T*=1.184)
+     ★ L3/mc/heldout ECE_post=0.1939 (ECE_pre=0.3349, T*=1.299)
+     ★ L3/mc/time_2018 ECE_post=0.0508 (ECE_pre=0.0950, T*=1.299)
+  ⑤ 口径说明: L2 二分类 proba=[1-p,p] 后套与多分类同一套 ECE/NLL 定义; L3-EMT 为「真值是否 EMT vs P(EMT)」二分类口径, reliability/pred 亦基于此; heldout/time 无 val, T* 一律取自 random val (与 L3 v1 惯例一致)。
+
+==============================================================================
+产出清单:
+  C:\Users\xiaob\Documents\FASE_Zeolites\Data\m10_calib_v1_report.txt (85 行)
+  C:\Users\xiaob\Documents\FASE_Zeolites\Data\m10_calib_v1_metrics.parquet (15 行)
+  C:\Users\xiaob\Documents\FASE_Zeolites\Data\m10_calib_v1_reliability.parquet (300 行)
+  C:\Users\xiaob\Documents\FASE_Zeolites\Data\m10_calib_v1_pred.parquet (30294 行)
+  C:\Users\xiaob\Documents\FASE_Zeolites\Data\m10_calib_v1_manifest.json
+  C:\Users\xiaob\Documents\FASE_Zeolites\Documentation\m10_calib_reliability.png (plot 阶段生成)
+calib 用时 13.7 min

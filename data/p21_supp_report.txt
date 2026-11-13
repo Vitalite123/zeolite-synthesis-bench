@@ -1,0 +1,47 @@
+P2-1 补件包 T2 可行性参照表 — 只读复述
+预注册 Documentation/P2-1_补件包_立项_骨架.md v0.1
+运行 2026-10-23 16:29:43
+
+G0 输入门: 8/8 md5 PASS
+A1 锚点: 12/12 PASS; ECE 锚点: 15/15 PASS
+
+## T2 表（15 行）
+
+| Arm | Caliber | Metric | random | heldout | time_2018 | ECE_post random / heldout / time |
+|---|---|---|---:|---:|---:|---|
+| L1 | mc | top-1 | 0.5710 | 0.2402 | 0.6973 | 0.0503 / 0.1890 / 0.0638 |
+| L2xt | xtal | AUROC | 0.6307 | 0.5158 | 0.6650 | 0.0293 / 0.0561 / 0.0291 |
+| L2pu | pure | AUROC | 0.6210 | 0.5432 | 0.6271 | 0.0332 / 0.0846 / 0.0491 |
+| L3mc | mc | top-1 | 0.5565 | 0.2617 | 0.6570 | n.a.† / n.a.† / n.a.† |
+| L3emt | emt | acc | 0.9881 | 0.9572 | 0.9528 | n.a.† / n.a.† / n.a.† |
+
+† L3 两臂的 ECE 记 n.a.：m10_calib_v1_report.txt 的 T*=1.299 与部署束 T_L3=1.2845 不一致，
+  属不同 L3 版本（特征/类别集），逐组 ECE 不可跨版本引用；分类读数仍取自部署束。
+
+## ECE 达标计数（已知口径冲突，登记不裁定）
+严格 4 位判定: 4/9（仅计 ECE 可引用行）
+两位小数判定: 5/9
+差异组 L1/mc/random 0.0503：严格 FAIL、两位小数 PASS。
+对账: m10 全账本含 L3 时为 8/15（严格，见其判读④）；
+      进展报告记 9/15，属全账本口径；本表只引用 ECE 可跨版本比较的 9 行，不裁定全账本计数。
+
+## 缺口登记
+- ECE NA: L3 臂版本不同（m10 calib acc 0.5554 vs bundle top-1 0.5565；T*=1.2990 vs bundle T_L3=1.2845），逐组 ECE 不可跨版本引用
+- ECE NA: L3 臂版本不同（m10 calib acc 0.5554 vs bundle top-1 0.5565；T*=0.7210 vs bundle T_L3=1.2845），逐组 ECE 不可跨版本引用
+
+## 逐行读数（CSV 镜像）
+L1    random     top-1  0.5710 n= 1436 ECE_post=0.0503 T=1.2460
+L1    heldout    top-1  0.2402 n= 1657 ECE_post=0.1890 T=1.2460
+L1    time_2018  top-1  0.6973 n= 1239 ECE_post=0.0638 T=1.2460
+L2xt  random     AUROC  0.6307 n= 2298 ECE_post=0.0293 T=0.9430
+L2xt  heldout    AUROC  0.5158 n= 2992 ECE_post=0.0561 T=0.9430
+L2xt  time_2018  AUROC  0.6650 n= 2006 ECE_post=0.0291 T=0.9430
+L2pu  random     AUROC  0.6210 n= 2298 ECE_post=0.0332 T=1.1840
+L2pu  heldout    AUROC  0.5432 n= 2992 ECE_post=0.0846 T=1.1840
+L2pu  time_2018  AUROC  0.6271 n= 2006 ECE_post=0.0491 T=1.1840
+L3mc  random     top-1  0.5565 n= 1761 ECE_post=    NA T=1.2990
+L3mc  heldout    top-1  0.2617 n= 2335 ECE_post=    NA T=1.2990
+L3mc  time_2018  top-1  0.6570 n= 1589 ECE_post=    NA T=1.2990
+L3emt random     acc    0.9881 n= 1761 ECE_post=    NA T=0.7210
+L3emt heldout    acc    0.9572 n= 2335 ECE_post=    NA T=0.7210
+L3emt time_2018  acc    0.9528 n= 1589 ECE_post=    NA T=0.7210

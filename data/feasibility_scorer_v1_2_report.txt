@@ -1,0 +1,46 @@
+feasibility_scorer v1_2 —— 三层判别器统一入口 + 温度校准 + T3.4 过滤器
+数据版本 zeobench_db_v1_8 + zeobench_splits_v1_8; git 518fe5f6d9909ca388d2278444407a1315e63340
+协议纪律: 三臂逐位镜像 m10_calib_v1 (不修改既有脚本); 校准层复用 l3_purity_v1 定义
+去 Tier A: v1.8 24706 行 → 23805 行
+
+【L1 臂】相分类 (A3 490, 198 类)
+  L1 域: 13286 行 198 类; random 早停@118 (119s); T_L1=1.2458
+  L1 test top-1: random 0.5710 / heldout 0.2402 / time 0.6973
+
+【L2 臂】可行性 (xtal 主口径 + pure 参照, A3 490)
+  L2 域: 主库(v1.1 剔 Tier A) 23488 + lit_fail 308 + 先批增量 307 + 本批 10 = 24113 行
+  L2 pure random 早停轮 = 59 (heldout/time 轮数锚定惯例)
+  L2 xtal AUROC: random 0.6307 / heldout 0.5158 / time 0.6650 (轮 36, T=0.9434)
+  L2 pure AUROC: random 0.6210 / heldout 0.5432 / time 0.6271 (轮 59, T=1.1836)
+
+【L3 臂】纯度竞相 (498 维, 200 类)
+  L3 域: 17364 行 200 类 (sidecar 补 key 1199 行); 498 维冻结
+  L3 random 早停@128 (178s); T_L3=1.2845 (v1.2 登记冻结 1.2845, 交叉校验 Δ=+0.0000)
+  L3 test top-1: random 0.5565 / heldout 0.2617 / time 0.6570
+
+==============================================================================
+  L1    random    期望 0.5710 实测 0.5710 (Δ+0.0000) -> PASS
+  L1    heldout   期望 0.2402 实测 0.2402 (Δ-0.0000) -> PASS
+  L1    time_2018 期望 0.6973 实测 0.6973 (Δ+0.0000) -> PASS
+  L2xt  random    期望 0.6307 实测 0.6307 (Δ+0.0000) -> PASS
+  L2xt  heldout   期望 0.5158 实测 0.5158 (Δ-0.0000) -> PASS
+  L2xt  time_2018 期望 0.6650 实测 0.6650 (Δ-0.0000) -> PASS
+  L2pu  random    期望 0.6210 实测 0.6210 (Δ+0.0000) -> PASS
+  L2pu  heldout   期望 0.5432 实测 0.5432 (Δ+0.0000) -> PASS
+  L2pu  time_2018 期望 0.6271 实测 0.6271 (Δ+0.0000) -> PASS
+  L3    random    期望 0.5565 实测 0.5565 (Δ+0.0000) -> PASS
+  L3    heldout   期望 0.2617 实测 0.2617 (Δ-0.0000) -> PASS
+  L3    time_2018 期望 0.6570 实测 0.6570 (Δ+0.0000) -> PASS
+  12 项锚点 assert: 全部 PASS
+  温度缩放 argmax 不变: 逐头×切分断言 PASS (分类读数不受 T 影响)
+
+域规模: L1 13286 行 198 类 | L2 24113 行 | L3 17364 行 200 类
+
+T3.4 硬约束过滤器对接: 可用 (训练域校准, 6 规则 + cap 标签)
+  v0.1 生成产物淘汰率 (引用 t3_4_filter_report): 总体淘汰率 0.0237 / WP5 strict 0.9883
+
+API 冒烟 (score_one, 库式输入):
+  route ZS00001: L1 top1=AFI (p=0.5648); L2 p_xtal=0.6352 p_pure=0.4774; L3 top1=AFI p_max=0.5812 target_p(EMT)=0.0010
+
+产出: C:\Users\xiaob\Documents\FASE_Zeolites\Data\feasibility_scorer_v1_2_model.pkl | C:\Users\xiaob\Documents\FASE_Zeolites\Data\feasibility_scorer_v1_2_report.txt | C:\Users\xiaob\Documents\FASE_Zeolites\Data\feasibility_scorer_v1_2_manifest.json | C:\Users\xiaob\Documents\FASE_Zeolites\Documentation\feasibility_scorer_v1_2_基准报告_骨架.md
+fit 用时 17.8 min

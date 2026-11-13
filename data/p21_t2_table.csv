@@ -1,0 +1,16 @@
+arm,head,caliber,split,metric,value,n_test,ece_pre,ece_post,T_calib,T_bundle,ece_pass_strict,ece_pass_2dp,source_metric,source_ece,gap
+L1,L1,mc,random,top-1,0.5710,1436,0.1146,0.0503,1.2460,1.2458,FAIL,PASS,feasibility_scorer_v1_2_report.txt,m10_calib_v1_report.txt,
+L1,L1,mc,heldout,top-1,0.2402,1657,0.3082,0.1890,1.2460,1.2458,FAIL,FAIL,feasibility_scorer_v1_2_report.txt,m10_calib_v1_report.txt,
+L1,L1,mc,time_2018,top-1,0.6973,1239,0.0536,0.0638,1.2460,1.2458,FAIL,FAIL,feasibility_scorer_v1_2_report.txt,m10_calib_v1_report.txt,
+L2xt,L2,xtal,random,AUROC,0.6307,2298,0.0178,0.0293,0.9430,0.9434,PASS,PASS,feasibility_scorer_v1_2_report.txt,m10_calib_v1_report.txt,
+L2xt,L2,xtal,heldout,AUROC,0.5158,2992,0.0521,0.0561,0.9430,0.9434,FAIL,FAIL,feasibility_scorer_v1_2_report.txt,m10_calib_v1_report.txt,
+L2xt,L2,xtal,time_2018,AUROC,0.6650,2006,0.0183,0.0291,0.9430,0.9434,PASS,PASS,feasibility_scorer_v1_2_report.txt,m10_calib_v1_report.txt,
+L2pu,L2,pure,random,AUROC,0.6210,2298,0.0390,0.0332,1.1840,1.1836,PASS,PASS,feasibility_scorer_v1_2_report.txt,m10_calib_v1_report.txt,
+L2pu,L2,pure,heldout,AUROC,0.5432,2992,0.1071,0.0846,1.1840,1.1836,FAIL,FAIL,feasibility_scorer_v1_2_report.txt,m10_calib_v1_report.txt,
+L2pu,L2,pure,time_2018,AUROC,0.6271,2006,0.0541,0.0491,1.1840,1.1836,PASS,PASS,feasibility_scorer_v1_2_report.txt,m10_calib_v1_report.txt,
+L3mc,L3,mc,random,top-1,0.5565,1761,0.1527,,1.2990,1.2845,,,feasibility_scorer_v1_2_report.txt,,ECE NA: L3 臂版本不同（m10 calib acc 0.5554 vs bundle top-1 0.5565；T*=1.2990 vs bundle T_L3=1.2845），逐组 ECE 不可跨版本引用
+L3mc,L3,mc,heldout,top-1,0.2617,2335,0.3349,,1.2990,1.2845,,,feasibility_scorer_v1_2_report.txt,,ECE NA: L3 臂版本不同（m10 calib acc 0.5554 vs bundle top-1 0.5565；T*=1.2990 vs bundle T_L3=1.2845），逐组 ECE 不可跨版本引用
+L3mc,L3,mc,time_2018,top-1,0.6570,1589,0.0950,,1.2990,1.2845,,,feasibility_scorer_v1_2_report.txt,,ECE NA: L3 臂版本不同（m10 calib acc 0.5554 vs bundle top-1 0.5565；T*=1.2990 vs bundle T_L3=1.2845），逐组 ECE 不可跨版本引用
+L3emt,L3,emt,random,acc,0.9881,1761,0.0076,,0.7210,1.2845,,,m10_calib_v1_report.txt,,ECE NA: L3 臂版本不同（m10 calib acc 0.5554 vs bundle top-1 0.5565；T*=0.7210 vs bundle T_L3=1.2845），逐组 ECE 不可跨版本引用
+L3emt,L3,emt,heldout,acc,0.9572,2335,0.0205,,0.7210,1.2845,,,m10_calib_v1_report.txt,,ECE NA: L3 臂版本不同（m10 calib acc 0.5554 vs bundle top-1 0.5565；T*=0.7210 vs bundle T_L3=1.2845），逐组 ECE 不可跨版本引用
+L3emt,L3,emt,time_2018,acc,0.9528,1589,0.0225,,0.7210,1.2845,,,m10_calib_v1_report.txt,,ECE NA: L3 臂版本不同（m10 calib acc 0.5554 vs bundle top-1 0.5565；T*=0.7210 vs bundle T_L3=1.2845），逐组 ECE 不可跨版本引用

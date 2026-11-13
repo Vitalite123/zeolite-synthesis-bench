@@ -1,0 +1,88 @@
+{
+  "task": "P1#6 P2-1 补件包 / T2 参照表",
+  "prereg": "Documentation/P2-1_补件包_立项_骨架.md v0.1",
+  "run_at": "2026-10-23T16:29:43",
+  "python": "3.14.7",
+  "pandas": "3.0.5",
+  "inputs_md5": {
+    "feasibility_scorer_v1_2_report.txt": "359d3e42c7bb924f7dec8a8fcbfedb07",
+    "feasibility_scorer_v1_2_model.pkl": "fa0889f9db9118ef7d6b39448ac6f12a",
+    "wp5_bench_v1_table.csv": "55a58dcf697a98cc4b1ca42d4159ac47",
+    "wp5_g3_formal_report.txt": "202a8b054da3ee8703a875bedd98b29c",
+    "m10_calib_v1_report.txt": "3da40098b848020dd0a00b859af360cc",
+    "ZeoliteSynthesisBench_v1_规格_骨架.md": "e563520010c8df6f7546f81dba805efc",
+    "ZeoliteSynthesisBench_v1_基准主表_骨架.md": "8f5f7b43c110afb5e64d02c3e1bf17e7",
+    "DATA_DICT.md": "bb204867167cbc3510a5591ebc8db63c"
+  },
+  "outputs_md5": {
+    "Data\\p21_t2_table.csv": "7b196d667bb742faf84c41a6b01110f3",
+    "Data\\p21_supp_report.txt": "5a113ca33f10a2cd13872fd8bf2976f7"
+  },
+  "rows": 15,
+  "ece_referenceable": 9,
+  "ece_gap": 6,
+  "ece_pass_strict": 4,
+  "ece_pass_2dp": 5,
+  "elapsed_s": 0.18,
+  "figures": {
+    "p21_f1_dataflow.png": {
+      "md5": "0f6ad2420c3cae8f9ad33ce1ff21ecac",
+      "dpi": 160,
+      "source": "released data card · split manifest · benchmark report"
+    },
+    "p21_f2_dual_track.png": {
+      "md5": "49de6c2b3db5bd83e069992ef0e8a875",
+      "dpi": 160,
+      "source": "released split manifest · benchmark audit report"
+    },
+    "p21_f3_stratified_covp.png": {
+      "md5": "6138e0ad02ec1f8677266a2d4082ed85",
+      "dpi": 160,
+      "source": "wp5_bench_v1_table.csv"
+    },
+    "p21_f4_cc_gap.png": {
+      "md5": "f0e4518628d031b6996ac2cd78210c2d",
+      "dpi": 160,
+      "source": "wp5_bench_v1_table.csv · wp5_g3_formal_report.txt"
+    }
+  },
+  "publication_figures": {
+    "p21_f1_dataflow_300dpi.png": {
+      "md5": "d4fdd9f6ddff5803f76eb388e668a258",
+      "dpi": 300,
+      "width_in": 6.933,
+      "height_in": 3.74,
+      "source": "released data card · split manifest · benchmark report"
+    },
+    "p21_f2_dual_track_300dpi.png": {
+      "md5": "4a41464823c68400f3c85f11040fcdbf",
+      "dpi": 300,
+      "width_in": 6.91,
+      "height_in": 4.043,
+      "source": "released split manifest · benchmark audit report"
+    },
+    "p21_f3_stratified_covp_300dpi.png": {
+      "md5": "f86fb9da10f1b43ea73fa7722647dd6a",
+      "dpi": 300,
+      "width_in": 6.923,
+      "height_in": 4.163,
+      "source": "wp5_bench_v1_table.csv"
+    },
+    "p21_f4_cc_gap_300dpi.png": {
+      "md5": "52918342d3dbaa577824bffb3b24cc7c",
+      "dpi": 300,
+      "width_in": 6.927,
+      "height_in": 3.933,
+      "source": "wp5_bench_v1_table.csv · wp5_g3_formal_report.txt"
+    }
+  },
+  "toc_graphic": {
+    "p21_toc_graphic_300dpi.png": {
+      "md5": "b7f6e973554034927e9b48d6c80d8f36",
+      "dpi": 300,
+      "width_in": 3.5,
+      "height_in": 1.373,
+      "source": "F1/F2 constants only (released data card · split manifest · benchmark report)"
+    }
+  }
+}
