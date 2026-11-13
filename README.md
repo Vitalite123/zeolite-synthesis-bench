@@ -101,8 +101,10 @@ See `CITATION.cff`. Until the manuscript is published, cite the paper title and 
 
 ## Licence
 
-Code: MIT (`LICENSE`). Data: CC BY 4.0 (`LICENSE-DATA`). The corpus is a derived annotation of
-published hydrothermal routes; consult the original articles for the underlying experiments.
+Code: MIT (`LICENSE`). Benchmark annotations, labels and splits: CC BY 4.0 (`LICENSE-DATA`). The main
+upstream corpus, ZeoSyn, is distributed under the MIT licence; its copyright notices are retained in
+`LICENSE-DATA`, and records derived from it remain under those MIT terms. Consult the original
+articles for the underlying experiments.
 
 ## Contact
 

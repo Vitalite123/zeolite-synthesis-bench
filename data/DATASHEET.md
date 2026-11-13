@@ -95,6 +95,8 @@ temperature lies in [20, 350] °C and time lies in (0, 20,000] h.
 
 ## Licence
 
-Data are released under CC BY 4.0 (`LICENSE-DATA`). Source code is MIT (`LICENSE`). The corpus is a
-derived annotation of published hydrothermal routes; consult the original publications for the
+Benchmark annotations, labels and splits are released under CC BY 4.0 (`LICENSE-DATA`). Source code is
+MIT (`LICENSE`). The corpus is a derived annotation of published hydrothermal routes; its main
+upstream source, ZeoSyn, is MIT-licensed, and `LICENSE-DATA` retains those copyright notices. Records
+derived from ZeoSyn remain under the upstream MIT terms. Consult the original publications for the
 underlying experimental records.

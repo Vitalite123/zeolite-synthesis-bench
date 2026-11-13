@@ -1,13 +1,12 @@
 ZeoliteSynthesisBench v1 — data licence
 ========================================
 
-The data files in this directory (zeobench_db_v1_8.parquet, zeobench_splits_v1_8.parquet and the
-derived readout tables) are licensed under the Creative Commons Attribution 4.0 International
-licence (CC BY 4.0).
+1. Benchmark additions
 
-You are free to share and adapt the data for any purpose, provided that you give appropriate
-credit, link to the licence, and indicate whether changes were made. No additional restrictions
-may be applied.
+The annotations, outcome labels, frozen splits and derived readout tables added by this benchmark
+are licensed under the Creative Commons Attribution 4.0 International licence (CC BY 4.0). You are
+free to share and adapt them for any purpose, provided that you give appropriate credit, link to the
+licence, and indicate whether changes were made. No additional restrictions may be applied.
 
 Full legal code: https://creativecommons.org/licenses/by/4.0/legalcode
 
@@ -16,9 +15,42 @@ Suggested attribution:
   ZeoliteSynthesisBench v1 (2026). A leakage-audited benchmark for zeolite synthesis recipe
   generation and feasibility prediction. Licensed under CC BY 4.0.
 
-Scope note: the corpus is a derived annotation of published hydrothermal synthesis routes. Rights in
-the underlying experimental records remain with the original authors and publishers. Users are
-responsible for checking the terms of the source publications before redistributing record-level
-content.
+2. Upstream corpus
+
+The corpus is a derived annotation of published hydrothermal synthesis routes. Its main upstream
+source is ZeoSyn (Pan et al., ACS Central Science 2024, 10, 729-743, DOI 10.1021/acscentsci.3c01615).
+The ZeoSyn dataset and the accompanying ZeoSynGen code are distributed under the MIT licence, and the
+following notices are retained as that licence requires:
+
+  Copyright (c) 2024 Elton Pan
+  Copyright (c) 2020 Phil Wang
+  Copyright (c) 2023 Elton Pan
+  Copyright (c) 2021 Haoyan Huo
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+  associated documentation files (the "Software"), to deal in the Software without restriction,
+  including without limitation the rights to use, copy, modify, merge, publish, distribute,
+  sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all copies or
+  substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+  NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Record-level content derived from ZeoSyn is redistributed under these MIT terms. The remaining
+records come from independent literature extraction carried out for this benchmark and fall under
+the CC BY 4.0 terms in section 1.
+
+3. Scope
+
+Rights in the underlying experimental records remain with the original authors and publishers.
+Neither licence transfers rights over third-party figures or text. Where a record is ZeoSyn-derived,
+the MIT terms in section 2 govern that record; where it is benchmark-added, CC BY 4.0 governs. Users
+should check the terms of the source publications before redistributing record-level content.
 
 Source code in this repository is licensed separately under the MIT licence (see LICENSE).
