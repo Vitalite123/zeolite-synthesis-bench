@@ -351,7 +351,7 @@ def fig_stratified(df: pd.DataFrame, out: Path, size: tuple[float, float] = (8.6
               loc="upper right")
     for s in ["top", "right"]:
         ax.spines[s].set_visible(False)
-    ax.set_title("Coverage precision by skeleton-support stratum (Track A, 123 systems × 200)",
+    ax.set_title("Coverage precision by framework-support stratum (Track A, 123 systems × 200)",
                  fontsize=10, pad=10)
     ax.text(0.5, -0.22, "Source: Data/wp5_bench_v1_table.csv (COVP_rich / COVP_mid / COVP_few)",
             transform=ax.transAxes, ha="center", fontsize=7.2, color="#6b7b84")
