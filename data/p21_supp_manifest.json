@@ -26,54 +26,66 @@
   "elapsed_s": 0.18,
   "figures": {
     "p21_f1_dataflow.png": {
-      "md5": "0f6ad2420c3cae8f9ad33ce1ff21ecac",
+      "md5": "3cbb221ca4de95b7c3c1c9fbde03c3bb",
       "dpi": 160,
-      "source": "released data card · split manifest · benchmark report"
+      "source": "data/DATASHEET.md · data/wp5_g3_formal_report.txt"
     },
     "p21_f2_dual_track.png": {
       "md5": "49de6c2b3db5bd83e069992ef0e8a875",
       "dpi": 160,
-      "source": "released split manifest · benchmark audit report"
+      "source": "ZeoSyn/DiffSyn non-merge audit (Methods 2.2)"
     },
-    "p21_f3_stratified_covp.png": {
+    "p21_f3_baselines.png": {
+      "md5": "186a21fa484219f52d44b2e55745203e",
+      "dpi": 160,
+      "source": "Methods 2.4 · registered training-line records (G3)"
+    },
+    "p21_f4_stratified_covp.png": {
       "md5": "6138e0ad02ec1f8677266a2d4082ed85",
       "dpi": 160,
-      "source": "wp5_bench_v1_table.csv"
+      "source": "data/wp5_bench_v1_table.csv"
     },
-    "p21_f4_cc_gap.png": {
+    "p21_f5_cc_gap.png": {
       "md5": "f0e4518628d031b6996ac2cd78210c2d",
       "dpi": 160,
-      "source": "wp5_bench_v1_table.csv · wp5_g3_formal_report.txt"
+      "source": "data/wp5_bench_v1_table.csv · data/wp5_g3_formal_report.txt"
     }
   },
   "publication_figures": {
     "p21_f1_dataflow_300dpi.png": {
-      "md5": "d4fdd9f6ddff5803f76eb388e668a258",
+      "md5": "e2abd5007d4da4c2721162ab70613b3e",
       "dpi": 300,
       "width_in": 6.933,
       "height_in": 3.74,
-      "source": "released data card · split manifest · benchmark report"
+      "source": "data/DATASHEET.md · data/wp5_g3_formal_report.txt"
     },
     "p21_f2_dual_track_300dpi.png": {
       "md5": "4a41464823c68400f3c85f11040fcdbf",
       "dpi": 300,
       "width_in": 6.91,
       "height_in": 4.043,
-      "source": "released split manifest · benchmark audit report"
+      "source": "ZeoSyn/DiffSyn non-merge audit (Methods 2.2)"
     },
-    "p21_f3_stratified_covp_300dpi.png": {
+    "p21_f3_baselines_300dpi.png": {
+      "md5": "42e5fdd8c0f33352df699352bc01cf73",
+      "dpi": 300,
+      "width_in": 6.99,
+      "height_in": 3.933,
+      "source": "Methods 2.4 · registered training-line records (G3)"
+    },
+    "p21_f4_stratified_covp_300dpi.png": {
       "md5": "f86fb9da10f1b43ea73fa7722647dd6a",
       "dpi": 300,
       "width_in": 6.923,
       "height_in": 4.163,
-      "source": "wp5_bench_v1_table.csv"
+      "source": "data/wp5_bench_v1_table.csv"
     },
-    "p21_f4_cc_gap_300dpi.png": {
+    "p21_f5_cc_gap_300dpi.png": {
       "md5": "52918342d3dbaa577824bffb3b24cc7c",
       "dpi": 300,
       "width_in": 6.927,
       "height_in": 3.933,
-      "source": "wp5_bench_v1_table.csv · wp5_g3_formal_report.txt"
+      "source": "data/wp5_bench_v1_table.csv · data/wp5_g3_formal_report.txt"
     }
   },
   "toc_graphic": {
@@ -83,6 +95,20 @@
       "width_in": 3.5,
       "height_in": 1.373,
       "source": "F1/F2 constants only (released data card · split manifest · benchmark report)"
+    }
+  },
+  "ga_graphic": {
+    "p21_ga_graphic_300dpi.png": {
+      "md5": "19e3e8c23b90a5b54b3223c2014bbbce",
+      "dpi": 300,
+      "width_in": 6.0,
+      "height_in": 2.4,
+      "source": "F1/F2 constants only (data/DATASHEET.md · Methods 2.2/2.3)"
+    },
+    "p21_ga_graphic.pdf": {
+      "md5": "73a9f1d712f330de29a158afee394429",
+      "format": "pdf",
+      "source": "vector copy of p21_ga_graphic_300dpi.png"
     }
   }
 }

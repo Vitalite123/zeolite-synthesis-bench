@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""P1#6 / P2-1 补件包：图 F1–F4（确定性、headless、无新读数）
+"""P1#6 / P2-1 补件包：图 F1–F5（确定性、headless、无新读数）
 
 预注册：Documentation/P2-1_补件包_立项_骨架.md v0.1 §2.2 / A2
 数据来源：
@@ -36,8 +36,9 @@ INPUTS = {
 
 F1 = ASSETS / "p21_f1_dataflow.png"
 F2 = ASSETS / "p21_f2_dual_track.png"
-F3 = ASSETS / "p21_f3_stratified_covp.png"
-F4 = ASSETS / "p21_f4_cc_gap.png"
+F3 = ASSETS / "p21_f3_baselines.png"
+F4 = ASSETS / "p21_f4_stratified_covp.png"
+F5 = ASSETS / "p21_f5_cc_gap.png"
 
 MANIFEST = DATA / "p21_supp_manifest.json"
 
@@ -45,11 +46,15 @@ DPI = 160
 PUB_DPI = 300
 TOC = ASSETS / "p21_toc_graphic_300dpi.png"
 TOC_SIZE = (3.5, 1.375)
+GA = ASSETS / "p21_ga_graphic_300dpi.png"
+GA_PDF = ASSETS / "p21_ga_graphic.pdf"
+GA_SIZE = (6.0, 2.4)  # 1800 x 720 px @300 dpi; >= Elsevier 1328 x 531 px (w x h), 2.5:1
 PUBLICATIONS = [
     ("f1", "p21_f1_dataflow_300dpi.png", (8.69, 4.60), 0.852),
     ("f2", "p21_f2_dual_track_300dpi.png", (8.47, 3.58), 0.941),
-    ("f3", "p21_f3_stratified_covp_300dpi.png", (8.06, 3.94), 0.937),
-    ("f4", "p21_f4_cc_gap_300dpi.png", (7.91, 3.76), 0.941),
+    ("f3", "p21_f3_baselines_300dpi.png", (7.00, 3.85), 0.900),
+    ("f4", "p21_f4_stratified_covp_300dpi.png", (8.06, 3.94), 0.937),
+    ("f5", "p21_f5_cc_gap_300dpi.png", (7.91, 3.76), 0.941),
 ]
 METHOD_ORDER = ["FASE-DDPM v0", "FASE-DDPM v0.5", "TabDDPM-MLP", "KDE-QT", "Random-Uniform"]
 METHOD_LABEL = {
@@ -86,16 +91,17 @@ def gate() -> None:
     print(f"G0 input gate: {len(INPUTS)}/{len(INPUTS)} md5 PASS")
 
 
-def box(ax, xy, w, h, text, fc="#eef3f8", ec="#2f5d8a", fs=8.5, bold=False):
-    ax.add_patch(FancyBboxPatch(xy, w, h, boxstyle="round,pad=0.02,rounding_size=0.015",
+def box(ax, xy, w, h, text, fc="#eef3f8", ec="#2f5d8a", fs=8.5, bold=False, pad=0.02):
+    ax.add_patch(FancyBboxPatch(xy, w, h, boxstyle=f"round,pad={pad},rounding_size=0.015",
                                 linewidth=1.0, edgecolor=ec, facecolor=fc))
     ax.text(xy[0] + w / 2, xy[1] + h / 2, text, ha="center", va="center", fontsize=fs,
             fontweight="bold" if bold else "normal", linespacing=1.35)
 
 
-def arrow(ax, p0, p1):
+def arrow(ax, p0, p1, color="#5c6b73"):
     ax.add_patch(FancyArrowPatch(p0, p1, arrowstyle="-|>", mutation_scale=9,
-                                 linewidth=1.0, color="#5c6b73", shrinkA=0, shrinkB=0))
+                                 linewidth=1.0, color=color, shrinkA=0, shrinkB=0,
+                                 zorder=3))
 
 
 def scale_text(fig, s: float) -> None:
@@ -108,51 +114,67 @@ def scale_text(fig, s: float) -> None:
 
 
 def fig_f1(out: Path, size: tuple[float, float] = (10.2, 5.4), dpi: int = DPI,
-           font_scale: float = 1.0, wide_corpus: bool = False) -> None:
+           font_scale: float = 1.0, wide_corpus: bool = True) -> None:
     fig, ax = plt.subplots(figsize=size)
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis("off")
 
-    cx, cw = (0.24, 0.52) if wide_corpus else (0.30, 0.40)
-    box(ax, (cx, 0.845), cw, 0.115,
-        "Hydrothermal records\n24,706 records × 149 fields · 3,236 DOIs (1966–2026)", bold=True)
-
+    # layer 1: records container with the four outcome labels as inset boxes
+    box(ax, (0.07, 0.755), 0.86, 0.220, "")
+    ax.text(0.5, 0.930, "Hydrothermal records\n24,706 records × 149 fields · 3,236 DOIs (1966–2026)",
+            ha="center", va="center", fontsize=8.5, fontweight="bold", linespacing=1.35)
     labels = [
         ("positive\n15,187", "#e3eef7"),
         ("relative_neg\n4,478", "#eaf1e4"),
         ("absolute_neg\n4,993", "#f6ece2"),
         ("no_product\n48", "#f0eef5"),
     ]
-    w, gap = 0.215, 0.023
-    x0 = (1 - (4 * w + 3 * gap)) / 2
     for i, (t, c) in enumerate(labels):
-        x = x0 + i * (w + gap)
-        box(ax, (x, 0.665), w, 0.095, t, fc=c, fs=8)
-        arrow(ax, (0.5, 0.845), (x + w / 2, 0.760))
+        box(ax, (0.105 + i * 0.21, 0.775), 0.16, 0.085, t, fc=c, fs=8)
 
+    # layer 2: three frozen splits, narrowed and centred to clear the left
+    # channel that feeds the DDPM subset box
     splits = [("random\ntest 2,410", "#e3eef7"), ("heldout\ntest 3,067", "#eaf1e4"),
               ("time_2018\ntest 2,379", "#f6ece2")]
-    w2, gap2 = 0.27, 0.045
-    x2 = (1 - (3 * w2 + 2 * gap2)) / 2
-    for i, (t, c) in enumerate(splits):
-        x = x2 + i * (w2 + gap2)
-        box(ax, (x, 0.475), w2, 0.095, t, fc=c, fs=8)
-    ax.text(0.5, 0.135, "three frozen splits · six leakage audits PASS",
+    w2, x2 = 0.19, 0.165
+    centers = [x2 + i * (w2 + 0.05) + w2 / 2 for i in range(3)]
+    for cx, (t, c) in zip(centers, splits):
+        box(ax, (cx - w2 / 2, 0.590), w2, 0.090, t, fc=c, fs=8)
+        arrow(ax, (cx, 0.735), (cx, 0.700))
+    ax.text(0.5, 0.550, "three frozen splits · six leakage audits PASS",
             ha="center", va="center", fontsize=7.8, style="italic", color="#4a5a63")
 
-    box(ax, (0.055, 0.205), 0.30, 0.145,
-        "Track A (canonical)\n123 systems × 200 samples\n2,087 real test rows\nselected from 3,362 test rows", fc="#dfeaf4", fs=7.8)
-    box(ax, (0.385, 0.205), 0.24, 0.145,
-        "Track B (ZeoSyn split)\n464 systems\nno cross-track inference", fc="#f1eee6", fs=8.2)
-    box(ax, (0.655, 0.205), 0.29, 0.145,
+    # layer 3: DDPM subset (generation line) and feasibility domain (right)
+    box(ax, (0.055, 0.415), 0.36, 0.095,
+        "DDPM subset (21,714 rows)\nsystem split seed 0 · test 3,362", fc="#dfeaf4", fs=7.8)
+    box(ax, (0.60, 0.415), 0.33, 0.095,
         "Feasibility domain\n24,113 = 19,049 xtal + 5,064 neg\n490 features", fc="#e8f0e8", fs=8.2)
+    # the DDPM subset is carved from the records container (left channel)
+    arrow(ax, (0.10, 0.735), (0.10, 0.530))
+    # labelled rows channel: records container -> feasibility domain
+    arrow(ax, (0.92, 0.735), (0.92, 0.530))
+    ax.text(0.935, 0.632, "labelled rows", ha="center", va="center",
+            fontsize=6.4, rotation=90, color="#4a5a63")
 
-    arrow(ax, (0.2125, 0.475), (0.205, 0.350))
-    arrow(ax, (0.4775, 0.475), (0.505, 0.350))
-    arrow(ax, (0.8125, 0.475), (0.800, 0.350))
+    # layer 4: the two tracks, fed from layer 3
+    box(ax, (0.055, 0.215), 0.36, 0.125,
+        "Track A (canonical)\n123 systems × 200 samples\n2,087 of 3,362 real test rows", fc="#dfeaf4", fs=8.2, bold=True)
+    box(ax, (0.53, 0.215), 0.27, 0.125,
+        "Track B (ZeoSyn split)\n464 systems\nno cross-track inference", fc="#f1eee6", fs=8.2, bold=True)
+    arrow(ax, (0.235, 0.395), (0.235, 0.360))
 
-    ax.text(0.5, 0.065,
+    # layer 5: external ZeoSyn source, feeding Track B from below
+    ext = FancyBboxPatch((0.53, 0.090), 0.27, 0.060,
+                         boxstyle="round,pad=0.02,rounding_size=0.015",
+                         linewidth=1.0, edgecolor="#8a6d3b", facecolor="#f7f3ea",
+                         linestyle=(0, (4, 2)))
+    ax.add_patch(ext)
+    ax.text(0.665, 0.120, "ZeoSyn corpus · external split\n(DiffSyn-published baselines)",
+            ha="center", va="center", fontsize=7.0, linespacing=1.3)
+    arrow(ax, (0.665, 0.170), (0.665, 0.195))
+
+    ax.text(0.5, 0.025,
             "Sources: released data card · split manifest · benchmark report",
             ha="center", va="center", fontsize=7.2, color="#6b7b84")
     scale_text(fig, font_scale)
@@ -209,6 +231,96 @@ def fig_f2(out: Path, size: tuple[float, float] = (9.0, 3.8), dpi: int = DPI,
     print(f"wrote {out.name}")
 
 
+def fig_baselines(out: Path, size: tuple[float, float] = (10.4, 5.7), dpi: int = DPI,
+                  font_scale: float = 1.0) -> None:
+    """F3: generation paradigms of the five Track A baselines. Schematic only,
+    no data readings; method facts follow Methods 2.4 and the registered
+    training-line records (plain v0, accumulated recipe, v0.5 system-level
+    oversampling; no Si/Al channel in the frozen variants)."""
+    fig, ax = plt.subplots(figsize=size)
+    fig.subplots_adjust(left=0.015, right=0.985, top=0.985, bottom=0.015)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+
+    BRAND = "#2f5d8a"
+    lanes = [
+        ("FASE-DDPM", "learned · in-house",
+         [("Joint noising of", "recipe + conditioning"),
+          ("MLP U-Net denoiser", "v-pred · 1,000 steps"),
+          ("CFG sampling", "cond_scale 0.75")]),
+        ("TabDDPM-MLP", "learned · independent",
+         [("Quantile transform", "12 continuous columns"),
+          ("Column-wise Gaussian", "diffusion"),
+          ("MLP denoiser", "two-part conditioning")]),
+        ("KDE-QT", "non-neural reference",
+         [("Quantile transform", "of training rows"),
+          ("Per-framework", "Gaussian KDE"),
+          ("Global fallback", "if framework < 30 rows")]),
+        ("Random-Uniform", "non-learned floor",
+         [("Per-column", "min-max range"),
+          ("Uniform draw", "per column · seed 42"),
+          ("Non-learned floor", "anchors metric scale")]),
+    ]
+    w, gap = 0.205, 0.048
+    x0 = (1 - (4 * w + 3 * gap)) / 2
+    y_head, h_head = 0.779, 0.074
+    y_s = [0.631, 0.482, 0.333]
+    h_s = 0.099
+    y_strip, h_strip = 0.114, 0.180
+    y_score, h_score = 0.012, 0.066
+
+    box(ax, (0.035, 0.911), 0.93, 0.069,
+        "Target (zeo, osda) pair · framework + OSDA descriptors",
+        fc="#e3eef7", bold=True, fs=8.2, pad=0.012)
+
+    for i, (name, tag, stages) in enumerate(lanes):
+        x = x0 + i * (w + gap)
+        cx = x + w / 2
+        main = i == 0
+        fc = "#dfeaf4" if main else "#eef3f8"
+        ec = BRAND if main else "#5c6b73"
+        ax.add_patch(FancyBboxPatch((x, y_head), w, h_head,
+                                    boxstyle="round,pad=0.012,rounding_size=0.012",
+                                    linewidth=1.1 if main else 0.9, edgecolor=ec, facecolor=fc))
+        ax.text(cx, y_head + h_head * 0.62, name, ha="center", va="center",
+                fontsize=8.6, fontweight="bold", color=ec)
+        ax.text(cx, y_head + h_head * 0.28, tag, ha="center", va="center",
+                fontsize=7.3, color="#4a5a63")
+        arrow(ax, (cx, 0.899), (cx, y_head + h_head + 0.012), color=ec)
+        arrow(ax, (cx, y_head - 0.012), (cx, y_s[0] + h_s + 0.012), color=ec)
+        for j, (l1, l2) in enumerate(stages):
+            box(ax, (x, y_s[j]), w, h_s, f"{l1}\n{l2}", fc=fc, ec=ec, fs=7.3, pad=0.012)
+            if j:
+                arrow(ax, (cx, y_s[j - 1] - 0.012), (cx, y_s[j] + h_s + 0.012), color=ec)
+
+    xs = x0
+    cxs = xs + w / 2
+    ax.add_patch(FancyBboxPatch((xs, y_strip), w, h_strip,
+                                boxstyle="round,pad=0.012,rounding_size=0.012",
+                                linewidth=1.0, edgecolor=BRAND, facecolor="none",
+                                linestyle=(0, (4, 2))))
+    ax.text(cxs, y_strip + h_strip / 2,
+            "v0 \u2192 v0.5 training recipe\nv0 \u2014 plain run\nacc. qt · per-col loss\n"
+            "+ inv-freq · EMA 0.999\nv0.5 + system oversampling",
+            ha="center", va="center", fontsize=6.8, linespacing=1.4, color="#33454f")
+    arrow(ax, (cxs, y_s[2] - 0.012), (cxs, y_strip + h_strip + 0.012), color=BRAND)
+
+    for i in range(4):
+        cx = x0 + i * (w + gap) + w / 2
+        top = y_strip if i == 0 else y_s[2]
+        arrow(ax, (cx, top - 0.012), (cx, y_score + h_score + 0.012),
+              color=BRAND if i == 0 else "#5c6b73")
+    box(ax, (0.035, y_score), 0.93, h_score,
+        "Frozen scoring protocol (§2.3) · 12 metric functions · seed-42 rows",
+        fc="#eef3f8", fs=8.6, pad=0.012)
+
+    scale_text(fig, font_scale)
+    fig.savefig(out, dpi=dpi, bbox_inches="tight")
+    plt.close(fig)
+    print(f"wrote {out.name}")
+
+
 def load_bench() -> pd.DataFrame:
     df = pd.read_csv(DATA / "wp5_bench_v1_table.csv")
     assert len(df) == 5, f"bench rows {len(df)} != 5"
@@ -218,8 +330,8 @@ def load_bench() -> pd.DataFrame:
     return df.set_index("method").loc[METHOD_ORDER].reset_index()
 
 
-def fig_f3(df: pd.DataFrame, out: Path, size: tuple[float, float] = (8.6, 4.2),
-           dpi: int = DPI, font_scale: float = 1.0) -> None:
+def fig_stratified(df: pd.DataFrame, out: Path, size: tuple[float, float] = (8.6, 4.2),
+                   dpi: int = DPI, font_scale: float = 1.0) -> None:
     fig, ax = plt.subplots(figsize=size)
     x = range(len(df))
     width = 0.26
@@ -249,8 +361,8 @@ def fig_f3(df: pd.DataFrame, out: Path, size: tuple[float, float] = (8.6, 4.2),
     print(f"wrote {out.name}")
 
 
-def fig_f4(df: pd.DataFrame, real_cc: float, out: Path, size: tuple[float, float] = (8.4, 4.0),
-           dpi: int = DPI, font_scale: float = 1.0) -> None:
+def fig_cc_gap(df: pd.DataFrame, real_cc: float, out: Path, size: tuple[float, float] = (8.4, 4.0),
+               dpi: int = DPI, font_scale: float = 1.0) -> None:
     vals = df["CC_frac05"].tolist()
     fig, ax = plt.subplots(figsize=size)
     bars = ax.bar(range(len(df)), vals, width=0.55, color=COLORS, edgecolor="white", linewidth=0.8)
@@ -328,6 +440,61 @@ def fig_toc(out: Path = TOC, size: tuple[float, float] = TOC_SIZE, dpi: int = PU
     print(f"wrote {out.name}")
 
 
+def fig_ga(out: Path = GA, size: tuple[float, float] = GA_SIZE, dpi: int = PUB_DPI) -> None:
+    """Graphical abstract for CMS (Elsevier): minimum 1328 x 531 px (w x h),
+    2.5:1, readable at 5 x 13 cm. Numbers are frozen readings only (no new one)."""
+    fig, ax = plt.subplots(figsize=size)
+    fig.subplots_adjust(0, 0, 1, 1)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+
+    # pipeline: literature -> audited benchmark -> dual-track evaluation
+    toc_panel(ax, 0.012, 0.600, 0.290, 0.360, "hydrothermal literature",
+              "24,706 records · 3,236 DOIs\n1966–2026 · four outcome labels\nfailed routes kept as negatives",
+              fc="#eef3f8", title_fs=7.6, body_fs=7.0)
+    toc_panel(ax, 0.362, 0.600, 0.290, 0.360, "leakage-audited benchmark",
+              "three frozen splits\nsix audits PASS · two tasks\nseven metric families · one API",
+              fc="#eaf1e4", title_fs=7.6, body_fs=7.0)
+    toc_panel(ax, 0.702, 0.600, 0.286, 0.360, "dual-track evaluation",
+              "Track A 123 systems × 200 samples\nTrack B 464 ZeoSyn systems\nfeasibility heads on three splits",
+              fc="#f6ece2", title_fs=7.6, body_fs=7.0)
+
+    arrow(ax, (0.314, 0.780), (0.350, 0.780))
+    arrow(ax, (0.664, 0.780), (0.696, 0.780))
+
+    # second row: generator-context panel (left) + findings band (right).
+    # the left panel names the tested generator categories so the model
+    # names quoted in the findings read as part of one protocol.
+    toc_panel(ax, 0.012, 0.145, 0.262, 0.300, "generators evaluated",
+              "3 diffusion generators:\nFASE-DDPM v0 · v0.5 · TabDDPM\nKDE-QT (kernel density)\nuniform sampler (lower bound)",
+              fc="#f1eee6", title_fs=7.6, body_fs=6.6)
+
+    # findings band, narrowed and shifted right, fed by the pipeline
+    band = FancyBboxPatch((0.306, 0.145), 0.682, 0.300,
+                          boxstyle="round,pad=0.006,rounding_size=0.012",
+                          linewidth=0.7, edgecolor="#2f5d8a", facecolor="#f7f4ee")
+    ax.add_patch(band)
+    ax.text(0.647, 0.398, "what the benchmark shows", ha="center", va="center",
+            fontsize=7.6, style="italic", color="#3d4d57")
+    cols = [
+        "FASE-DDPM leads\nCOV-P 0.7359",
+        "coverage falls\n15–19% rel.\nrich → few",
+        "CC 0.1672 vs\n0.8730 real\ngap: generation",
+        "feasibility near\nchance on heldout",
+    ]
+    for i, body in enumerate(cols):
+        ax.text(0.414 + i * 0.1555, 0.245, body, ha="center", va="center",
+                fontsize=6.8, linespacing=1.45)
+    # arrow from the bottom-centre of the middle pipeline panel, vertically
+    # down to the findings band (which now spans underneath)
+    arrow(ax, (0.507, 0.594), (0.507, 0.451))
+
+    fig.savefig(out, dpi=dpi)
+    plt.close(fig)
+    print(f"wrote {out.name}")
+
+
 def main() -> None:
     gate()
     df = load_bench()
@@ -342,6 +509,7 @@ def main() -> None:
 
     publication = "--publication" in sys.argv
     toc = "--toc" in sys.argv
+    ga = "--ga" in sys.argv
     if toc:
         from PIL import Image
 
@@ -354,6 +522,20 @@ def main() -> None:
         assert abs(w_in - 3.5) <= 0.01, f"toc: width {w_in:.3f} in"
         assert abs(h_in - 1.375) <= 0.01, f"toc: height {h_in:.3f} in"
         print(f"  {TOC.name}: {w_px}x{h_px} px = {w_in:.3f} x {h_in:.3f} in @ {PUB_DPI} dpi")
+    elif ga:
+        from PIL import Image
+
+        fig_ga(GA, GA_SIZE, PUB_DPI)
+        fig_ga(GA_PDF, GA_SIZE, PUB_DPI)
+        with Image.open(GA) as im:
+            w_px, h_px = im.size
+            dpi_x = im.info["dpi"][0]
+        w_in, h_in = w_px / PUB_DPI, h_px / PUB_DPI
+        assert abs(dpi_x - PUB_DPI) < 0.01, f"ga: dpi {dpi_x}"
+        assert w_px >= 1328 and h_px >= 531, f"ga: {w_px}x{h_px} px < Elsevier 1328x531"
+        print(f"  {GA.name}: {w_px}x{h_px} px = {w_in:.3f} x {h_in:.3f} in @ {PUB_DPI} dpi "
+              f"(>= 1328x531 PASS)")
+        print(f"  {GA_PDF.name}: vector copy for submission")
     elif publication:
         from PIL import Image
 
@@ -365,9 +547,11 @@ def main() -> None:
             elif key == "f2":
                 fig_f2(out, size, PUB_DPI, fs)
             elif key == "f3":
-                fig_f3(df, out, size, PUB_DPI, fs)
+                fig_baselines(out, size, PUB_DPI, fs)
+            elif key == "f4":
+                fig_stratified(df, out, size, PUB_DPI, fs)
             else:
-                fig_f4(df, real_cc, out, size, PUB_DPI, fs)
+                fig_cc_gap(df, real_cc, out, size, PUB_DPI, fs)
             with Image.open(out) as im:
                 w_px, h_px = im.size
                 dpi_x = im.info["dpi"][0]
@@ -380,8 +564,9 @@ def main() -> None:
     else:
         fig_f1(F1)
         fig_f2(F2)
-        fig_f3(df, F3)
-        fig_f4(df, real_cc, F4)
+        fig_baselines(F3)
+        fig_stratified(df, F4)
+        fig_cc_gap(df, real_cc, F5)
 
     for p, want in INPUTS.items():
         assert md5_of(p) == want, f"frozen input mutated: {p}"
@@ -392,8 +577,9 @@ def main() -> None:
         figs = json.loads(MANIFEST.read_text(encoding="utf-8"))
     SOURCES = {"p21_f1_dataflow.png": "data/DATASHEET.md · data/wp5_g3_formal_report.txt",
                "p21_f2_dual_track.png": "ZeoSyn/DiffSyn non-merge audit (Methods 2.2)",
-               "p21_f3_stratified_covp.png": "data/wp5_bench_v1_table.csv",
-               "p21_f4_cc_gap.png": "data/wp5_bench_v1_table.csv · data/wp5_g3_formal_report.txt"}
+               "p21_f3_baselines.png": "Methods 2.4 · registered training-line records (G3)",
+               "p21_f4_stratified_covp.png": "data/wp5_bench_v1_table.csv",
+               "p21_f5_cc_gap.png": "data/wp5_bench_v1_table.csv · data/wp5_g3_formal_report.txt"}
     if toc:
         figs["toc_graphic"] = {
             TOC.name: {"md5": md5_of(TOC), "dpi": PUB_DPI,
@@ -408,13 +594,22 @@ def main() -> None:
                        "source": SOURCES[out.name.replace("_300dpi", "")]}
             for out, w_in, h_in in outs
         }
-        print("publication figures: 4/4 PASS")
+        print("publication figures: 5/5 PASS")
+    elif ga:
+        figs["ga_graphic"] = {
+            GA.name: {"md5": md5_of(GA), "dpi": PUB_DPI,
+                      "width_in": round(w_in, 3), "height_in": round(h_in, 3),
+                      "source": "F1/F2 constants only (data/DATASHEET.md · Methods 2.2/2.3)"},
+            GA_PDF.name: {"md5": md5_of(GA_PDF), "format": "pdf",
+                          "source": "vector copy of p21_ga_graphic_300dpi.png"},
+        }
+        print("Graphical abstract: PASS")
     else:
         figs["figures"] = {
             p.name: {"md5": md5_of(p), "dpi": DPI, "source": SOURCES[p.name]}
-            for p in [F1, F2, F3, F4]
+            for p in [F1, F2, F3, F4, F5]
         }
-        print("FIGS: 4/4 PASS")
+        print("FIGS: 5/5 PASS")
     MANIFEST.write_text(json.dumps(figs, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"updated {MANIFEST.name}")
 

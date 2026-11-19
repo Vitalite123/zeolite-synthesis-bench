@@ -45,10 +45,10 @@ pip install -r requirements.txt
 
 python -m pytest -q             # data contract + manifest + audit tests
 python splits/audit_splits.py   # six leakage audits, prints PASS/FAIL per audit
-python figures/p21_supp_figs.py # regenerate F1–F4 at 160 dpi
+python figures/p21_supp_figs.py # regenerate Figs. 1–5 at 160 dpi
 python figures/p21_supp_figs.py --publication
 python figures/p21_supp_figs.py --toc
-python figures/p21_supp_t2.py   # Table S2 and manifest refresh
+python figures/p21_supp_t2.py   # Table S1 and manifest refresh
 ```
 
 `make test`, `make audit`, `make figures` wrap the same commands.
@@ -92,8 +92,8 @@ DDPM arms from checkpoints instead of reusing the frozen parquets, run
 | Data contract (24,706 × 149, label and split counts) | `tests/test_data_contract.py` | pandas, pyarrow |
 | Six leakage audits | `splits/audit_splits.py` | pandas, pyarrow |
 | Figure md5 / size manifest | `tests/test_manifest.py`, `data/p21_supp_manifest.json` | hashlib, Pillow |
-| Figures F1–F4 and TOC graphic | `figures/p21_supp_figs.py` | matplotlib, pandas, Pillow |
-| Table S2 | `figures/p21_supp_t2.py` | pandas |
+| Figs. 1–5 and TOC graphic | `figures/p21_supp_figs.py` | matplotlib, pandas, Pillow |
+| Table S1 | `figures/p21_supp_t2.py` | pandas |
 | Track B baseline table | `figures/p21_trackb_table.py` | `vendor/zeosyn_gen` checkout |
 | Metric API and baseline readout | `metrics/`, `baselines/` | `vendor/zeosyn_gen` checkout, trained checkpoints |
 | Track A leaderboard (five arms) | `baselines/wp5_bench_v1_table.py` | `vendor/zeosyn_gen`, `weights/`, `data/samples/` |
