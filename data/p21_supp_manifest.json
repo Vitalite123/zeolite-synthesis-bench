@@ -99,14 +99,14 @@
   },
   "ga_graphic": {
     "p21_ga_graphic_300dpi.png": {
-      "md5": "19e3e8c23b90a5b54b3223c2014bbbce",
+      "md5": "5f945d5977f3a6ddda8915f7a2df2f8a",
       "dpi": 300,
       "width_in": 6.0,
       "height_in": 2.4,
       "source": "F1/F2 constants only (data/DATASHEET.md · Methods 2.2/2.3)"
     },
     "p21_ga_graphic.pdf": {
-      "md5": "73a9f1d712f330de29a158afee394429",
+      "md5": "eeabbc4dfc360e334c1d32badf6a06bf",
       "format": "pdf",
       "source": "vector copy of p21_ga_graphic_300dpi.png"
     }

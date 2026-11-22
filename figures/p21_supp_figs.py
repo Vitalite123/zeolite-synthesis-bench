@@ -390,11 +390,12 @@ def fig_cc_gap(df: pd.DataFrame, real_cc: float, out: Path, size: tuple[float, f
 
 
 def toc_panel(ax, x: float, y: float, w: float, h: float, title: str, body: str,
-              fc: str = "#eef3f8", title_fs: float = 5.2, body_fs: float = 5.6) -> None:
+              fc: str = "#eef3f8", title_fs: float = 5.2, body_fs: float = 5.6,
+              title_weight: str = "normal", lw: float = 0.7) -> None:
     ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.006,rounding_size=0.012",
-                                linewidth=0.7, edgecolor="#2f5d8a", facecolor=fc))
+                                linewidth=lw, edgecolor="#2f5d8a", facecolor=fc))
     ax.text(x + w / 2, y + h - 0.055, title, ha="center", va="center",
-            fontsize=title_fs, style="italic", color="#3d4d57")
+            fontsize=title_fs, style="italic", fontweight=title_weight, color="#3d4d57")
     ax.text(x + w / 2, y + (h - 0.075) / 2 - 0.01, body, ha="center", va="center",
             fontsize=body_fs, linespacing=1.4)
 
@@ -450,33 +451,35 @@ def fig_ga(out: Path = GA, size: tuple[float, float] = GA_SIZE, dpi: int = PUB_D
     ax.axis("off")
 
     # pipeline: literature -> audited benchmark -> dual-track evaluation
-    toc_panel(ax, 0.012, 0.600, 0.290, 0.360, "hydrothermal literature",
+    toc_panel(ax, 0.012, 0.600, 0.290, 0.360, "Hydrothermal literature",
               "24,706 records · 3,236 DOIs\n1966–2026 · four outcome labels\nfailed routes kept as negatives",
-              fc="#eef3f8", title_fs=7.6, body_fs=7.0)
-    toc_panel(ax, 0.362, 0.600, 0.290, 0.360, "leakage-audited benchmark",
+              fc="#eef3f8", title_fs=7.6, body_fs=7.0, title_weight="bold")
+    toc_panel(ax, 0.362, 0.600, 0.290, 0.360, "Leakage-audited benchmark",
               "three frozen splits\nsix audits PASS · two tasks\nseven metric families · one API",
-              fc="#eaf1e4", title_fs=7.6, body_fs=7.0)
-    toc_panel(ax, 0.702, 0.600, 0.286, 0.360, "dual-track evaluation",
+              fc="#eaf1e4", title_fs=7.6, body_fs=7.0, title_weight="bold")
+    toc_panel(ax, 0.702, 0.600, 0.286, 0.360, "Dual-track evaluation",
               "Track A 123 systems × 200 samples\nTrack B 464 ZeoSyn systems\nfeasibility heads on three splits",
-              fc="#f6ece2", title_fs=7.6, body_fs=7.0)
+              fc="#f6ece2", title_fs=7.6, body_fs=7.0, title_weight="bold")
 
     arrow(ax, (0.314, 0.780), (0.350, 0.780))
     arrow(ax, (0.664, 0.780), (0.696, 0.780))
 
-    # second row: generator-context panel (left) + findings band (right).
-    # the left panel names the tested generator categories so the model
-    # names quoted in the findings read as part of one protocol.
-    toc_panel(ax, 0.012, 0.145, 0.262, 0.300, "generators evaluated",
+    # second row: generator-context panel (left, widened and heightened,
+    # heavier border, highlighted background) + findings band (right,
+    # correspondingly narrower and taller). the left panel names the tested
+    # generator categories so the model names quoted in the findings read
+    # as part of one protocol.
+    toc_panel(ax, 0.012, 0.115, 0.298, 0.330, "Generators evaluated",
               "3 diffusion generators:\nFASE-DDPM v0 · v0.5 · TabDDPM\nKDE-QT (kernel density)\nuniform sampler (lower bound)",
-              fc="#f1eee6", title_fs=7.6, body_fs=6.6)
+              fc="#f3e3c9", title_fs=7.6, body_fs=6.6, title_weight="bold", lw=1.4)
 
     # findings band, narrowed and shifted right, fed by the pipeline
-    band = FancyBboxPatch((0.306, 0.145), 0.682, 0.300,
+    band = FancyBboxPatch((0.334, 0.115), 0.654, 0.330,
                           boxstyle="round,pad=0.006,rounding_size=0.012",
                           linewidth=0.7, edgecolor="#2f5d8a", facecolor="#f7f4ee")
     ax.add_patch(band)
-    ax.text(0.647, 0.398, "what the benchmark shows", ha="center", va="center",
-            fontsize=7.6, style="italic", color="#3d4d57")
+    ax.text(0.661, 0.398, "What the benchmark shows", ha="center", va="center",
+            fontsize=7.6, style="italic", fontweight="bold", color="#3d4d57")
     cols = [
         "FASE-DDPM leads\nCOV-P 0.7359",
         "coverage falls\n15–19% rel.\nrich → few",
@@ -484,7 +487,7 @@ def fig_ga(out: Path = GA, size: tuple[float, float] = GA_SIZE, dpi: int = PUB_D
         "feasibility near\nchance on heldout",
     ]
     for i, body in enumerate(cols):
-        ax.text(0.414 + i * 0.1555, 0.245, body, ha="center", va="center",
+        ax.text(0.428 + i * 0.1555, 0.245, body, ha="center", va="center",
                 fontsize=6.8, linespacing=1.45)
     # arrow from the bottom-centre of the middle pipeline panel, vertically
     # down to the findings band (which now spans underneath)
